@@ -1,5 +1,9 @@
 # CactusFlash
 
+NO WARRANTY - IF IT FAILS, TRY TO FLASH AGAIN. IF THAT DOESN'T WORK, SORRY
+
+Apologies to those of you that grinded all day. 
+
 Flash tool for CactusCon 14 badges. Pushes a modded `main.py` over USB-serial that:
 
 - Maxes all 15 creature stats (level 99, 255 HP, 99 across the board)

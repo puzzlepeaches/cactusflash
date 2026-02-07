@@ -17,7 +17,7 @@ Flash tool for CactusCon 14 badges. Pushes a modded `main.py` over USB-serial th
 ## Usage
 
 ```
-uv run flash_badge.py
+uv run cactusflash.py
 ```
 
 The script will:
@@ -30,7 +30,7 @@ The script will:
 
 ## Files
 
-- `flash_badge.py` -- Host-side script that handles serial communication and file transfer
+- `cactusflash.py` -- Host-side script that handles serial communication and file transfer
 - `modded_firmware/main.py` -- The modded MicroPython entry point that runs on the badge
 
 ## How it works

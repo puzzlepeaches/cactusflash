@@ -16,7 +16,10 @@ Usage:
 import argparse
 import base64
 import sys
-import termios
+try:
+    import termios
+except ImportError:
+    termios = None
 import time
 
 import serial

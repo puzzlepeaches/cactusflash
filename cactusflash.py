@@ -16,6 +16,7 @@ Usage:
 import argparse
 import base64
 import sys
+import termios
 import time
 
 import serial
@@ -355,7 +356,17 @@ def main():
         sys.exit(1)
 
     print(f"Found badge on {port}")
-    ser = serial.Serial(port, BAUD, timeout=1)
+    try:
+        ser = serial.Serial(port, BAUD, timeout=1)
+    except (termios.error, serial.SerialException):
+        # CH340 sometimes rejects initial config; open without settings then apply
+        ser = serial.Serial()
+        ser.port = port
+        ser.baudrate = BAUD
+        ser.timeout = 1
+        ser.dtr = False
+        ser.rts = False
+        ser.open()
     time.sleep(0.2)
 
     interrupt_and_enter_repl(ser)

@@ -6,19 +6,29 @@ Flash tool for CactusCon 14 badges. Pushes a modded `main.py` over USB-serial th
 - Unlocks all achievements including the 3 character-gated ones
 - Adds all creatures to the player pack
 - Sets player level/XP and win streaks to max
-- Changes the main menu subtitle to "hacked by ed"
 
 ## Requirements
 
-- Python 3.9+
-- [uv](https://docs.astral.sh/uv/) (dependencies are declared inline via PEP 723)
+- [uv](https://docs.astral.sh/uv/) (dependencies are declared inline via PEP 723, no manual install needed)
 - A CactusCon 14 badge connected via USB (CH340 serial chip)
+
+## Platform
+
+Developed and tested on macOS. Not tested on Linux or Windows.
 
 ## Usage
 
 ```
 uv run cactusflash.py
+uv run cactusflash.py --rainbow
+uv run cactusflash.py --auto-battle
+uv run cactusflash.py --rainbow --auto-battle
 ```
+
+- `--rainbow` -- Start rainbow LED cycling on boot
+- `--auto-battle` -- Enable auto-battle mode on boot
+
+With no flags, the badge boots normally with max stats but no rainbow or auto-battle.
 
 The script will:
 
@@ -41,4 +51,4 @@ The modded `main.py` patches the game in two ways:
 
 1. **`_patch_stats()`** -- Writes maxed creature levels/XP, player stats, achievements, and pack data directly to NVS (non-volatile storage) in both the `"cactuscon"` and `"write"` namespaces so values persist regardless of game state.
 
-2. **`_patch_menu()`** -- Monkey-patches `MainMenuPanel.create_ui` so that after the original method creates the UI, the subtitle label text is replaced with "hacked by ed".
+2. **`_patch_menu()`** -- Monkey-patches `GameUI.set_pixels_controller` to optionally start rainbow LEDs after the pixels controller is initialized.

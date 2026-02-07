@@ -39,7 +39,9 @@ uv run cactusflash.py --max-stats
 
 - `--rainbow` -- Badge LEDs cycle through rainbow colors continuously from boot. Purely cosmetic.
 - `--auto-battle` -- Badge automatically enters and plays battles without user input. Useful for farming wins/XP unattended.
-- `--max-stats` -- Set all combat stats to 99 (attack, defense, HP, etc). **Breaks PvP battles** -- the badge consensus protocol requires both badges to compute identical turn outcomes, and modified combat stats cause hash mismatches that void the battle. Use this only for auto-battle grinding or showing off stats on the character screen.
+- `--max-stats` -- Set all combat stats to 99 (attack, defense, HP, etc). **Breaks PvP battles** -- see note below.
+
+**Note on PvP and `--max-stats`:** During PvP, each badge computes turn outcomes using its own local character registry and both sides must agree (SHA1 hash consensus). Combat stats like attack, defense, and HP are NOT transmitted between badges -- only level is. If your badge has modded combat stats and the opponent's doesn't, the hashes will diverge and the battle gets voided (code=99). The default flash (no flags) only sets level to 255, which IS transmitted and agreed upon by both sides, so PvP works normally. Only use `--max-stats` for auto-battle grinding or showing off on the character screen.
 
 The script will:
 

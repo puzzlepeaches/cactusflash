@@ -381,6 +381,14 @@ def main():
     if args.auto_battle:
         main_py = main_py.replace("ENABLE_AUTO_BATTLE = False", "ENABLE_AUTO_BATTLE = True", 1)
     if args.max_stats:
+        print("WARNING: --max-stats sets all combat stats to 99. This WILL break PvP")
+        print("battles (consensus hash mismatch -> battle voided). Only useful for")
+        print("auto-battle grinding or showing off on the character screen.")
+        confirm = input("Continue? [y/N] ").strip().lower()
+        if confirm != "y":
+            print("Aborted.")
+            ser.close()
+            sys.exit(0)
         main_py = main_py.replace("ENABLE_MAX_STATS = False", "ENABLE_MAX_STATS = True", 1)
     file_data = main_py.encode("utf-8")
     if not push_file(ser, file_data, DST):

@@ -143,6 +143,24 @@ def _patch_menu():
             pc.start_rainbow()
     GameUI.set_pixels_controller = _patched_set_pixels
 
+    from cactuscon.ui.panels.main_menu import MainMenuPanel
+    _orig_create_ui = MainMenuPanel.create_ui
+    def _patched_create_ui(self):
+        _orig_create_ui(self)
+        sub = self.ui_elements.get('subtitle')
+        if sub:
+            sub.set_text('hacked by ed')
+    MainMenuPanel.create_ui = _patched_create_ui
+
+    from cactuscon.ui.panels.character import CharacterPanel
+    _orig_apply = CharacterPanel._apply_character_data
+    def _patched_apply(self):
+        _orig_apply(self)
+        xp_label = self.ui_elements.get('xp_label')
+        if xp_label:
+            xp_label.set_text('HACKED by ED 6/7')
+    CharacterPanel._apply_character_data = _patched_apply
+
 
 def main():
     app = BadgeApplication()

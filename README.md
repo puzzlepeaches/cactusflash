@@ -18,17 +18,22 @@ Developed and tested on macOS. Not tested on Linux or Windows.
 
 ## Usage
 
+With no flags, the badge gets max stats and reboots normally:
+
 ```
 uv run cactusflash.py
+```
+
+Optional flags enable extra features that get baked into the firmware at flash time:
+
+```
 uv run cactusflash.py --rainbow
 uv run cactusflash.py --auto-battle
 uv run cactusflash.py --rainbow --auto-battle
 ```
 
-- `--rainbow` -- Start rainbow LED cycling on boot
-- `--auto-battle` -- Enable auto-battle mode on boot
-
-With no flags, the badge boots normally with max stats but no rainbow or auto-battle.
+- `--rainbow` -- Badge LEDs cycle through rainbow colors continuously from boot. Purely cosmetic.
+- `--auto-battle` -- Badge automatically enters and plays battles without user input. Useful for farming wins/XP unattended.
 
 The script will:
 

@@ -61,3 +61,18 @@ The modded `main.py` patches the game in two ways:
 1. **`_patch_stats()`** -- Writes maxed creature levels/XP, player stats, achievements, and pack data directly to NVS (non-volatile storage) in both the `"cactuscon"` and `"write"` namespaces so values persist regardless of game state.
 
 2. **`_patch_menu()`** -- Monkey-patches `GameUI.set_pixels_controller` to optionally start rainbow LEDs after the pixels controller is initialized.
+
+## Tools
+
+### mpy_disasm.py
+
+Disassemble `.mpy` (MicroPython bytecode) files from the badge firmware dump. Wraps the official MicroPython `mpy-tool.py` with a friendlier CLI.
+
+```
+uv run tools/mpy_disasm.py dump/config.mpy
+uv run tools/mpy_disasm.py hexdump dump/config.mpy
+uv run tools/mpy_disasm.py batch dump/
+uv run tools/mpy_disasm.py batch dump/ -o analysis/disassembly
+```
+
+Run `uv run tools/mpy_disasm.py --help` for full usage.

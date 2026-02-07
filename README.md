@@ -6,7 +6,7 @@ Apologies to those of you that grinded all day.
 
 Flash tool for CactusCon 14 badges. Pushes a modded `main.py` over USB-serial that:
 
-- Maxes all 15 creature stats (level 99, 255 HP, 99 across the board)
+- Sets all 15 creatures to level 255 (7.375x damage multiplier, PvP-safe)
 - Unlocks all achievements including the 3 character-gated ones
 - Adds all creatures to the player pack
 - Sets player level/XP and win streaks to max
@@ -34,10 +34,12 @@ Optional flags enable extra features that get baked into the firmware at flash t
 uv run cactusflash.py --rainbow
 uv run cactusflash.py --auto-battle
 uv run cactusflash.py --rainbow --auto-battle
+uv run cactusflash.py --max-stats
 ```
 
 - `--rainbow` -- Badge LEDs cycle through rainbow colors continuously from boot. Purely cosmetic.
 - `--auto-battle` -- Badge automatically enters and plays battles without user input. Useful for farming wins/XP unattended.
+- `--max-stats` -- Set all combat stats to 99 (attack, defense, HP, etc). **Breaks PvP battles** -- the badge consensus protocol requires both badges to compute identical turn outcomes, and modified combat stats cause hash mismatches that void the battle. Use this only for auto-battle grinding or showing off stats on the character screen.
 
 The script will:
 

@@ -69,26 +69,28 @@ NVS_NAMESPACES = ['cactuscon', 'write']
 
 ENABLE_RAINBOW = False
 ENABLE_AUTO_BATTLE = False
+ENABLE_MAX_STATS = False
 
 
 def _patch_stats():
     log = open('/patch.log', 'w')
 
-    # 1) Max in-memory base_stats
+    # 1) Patch in-memory base_stats
     try:
         from cactuscon.game.engine import characters
         reg = characters.get_character_registry()
         chars = reg.all()
         log.write('found {} chars\\n'.format(len(chars)))
         for c in chars:
-            c.base_stats.level = 99
-            c.base_stats.hp = 255
-            c.base_stats.max_hp = 255
-            c.base_stats.attack = 99
-            c.base_stats.defense = 99
-            c.base_stats.sp_attack = 99
-            c.base_stats.sp_defense = 99
-            c.base_stats.speed = 99
+            c.base_stats.level = 255
+            if ENABLE_MAX_STATS:
+                c.base_stats.hp = 255
+                c.base_stats.max_hp = 255
+                c.base_stats.attack = 99
+                c.base_stats.defense = 99
+                c.base_stats.sp_attack = 99
+                c.base_stats.sp_defense = 99
+                c.base_stats.speed = 99
         log.write('stats ok\\n')
     except Exception as e:
         log.write('stats err: {}\\n'.format(e))
@@ -102,7 +104,7 @@ def _patch_stats():
             try:
                 # Creature level/XP
                 for cid in ALL_CIDS:
-                    prefs.set_int32(make_key("cl", cid), 99)
+                    prefs.set_int32(make_key("cl", cid), 255)
                     prefs.set_int32(make_key("cx", cid), 999999)
 
                 # Player stats
@@ -348,6 +350,8 @@ def main():
     parser = argparse.ArgumentParser(description="Flash a CactusCon 14 badge with max stats")
     parser.add_argument("--rainbow", action="store_true", help="Enable rainbow LEDs on boot")
     parser.add_argument("--auto-battle", action="store_true", help="Enable auto-battle on boot")
+    parser.add_argument("--max-stats", action="store_true",
+        help="Max all combat stats to 99 (breaks PvP consensus)")
     args = parser.parse_args()
 
     port = find_badge_port()
@@ -376,6 +380,8 @@ def main():
         main_py = main_py.replace("ENABLE_RAINBOW = False", "ENABLE_RAINBOW = True", 1)
     if args.auto_battle:
         main_py = main_py.replace("ENABLE_AUTO_BATTLE = False", "ENABLE_AUTO_BATTLE = True", 1)
+    if args.max_stats:
+        main_py = main_py.replace("ENABLE_MAX_STATS = False", "ENABLE_MAX_STATS = True", 1)
     file_data = main_py.encode("utf-8")
     if not push_file(ser, file_data, DST):
         ser.close()
